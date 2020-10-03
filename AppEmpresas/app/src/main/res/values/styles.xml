@@ -1,4 +1,5 @@
 <resources>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -6,6 +7,8 @@
     </style>
 
     <style name="SplashScreenTheme" parent="AppTheme">
-        <item name="background">@drawable/splash_screen_background</item>
+        <item name="android:navigationBarColor">@color/colorAppBackground</item>
+        <item name="android:statusBarColor">@color/colorAppBackground</item>
+        <item name="android:windowBackground">@drawable/splash_screen_background</item>
     </style>
 </resources>
