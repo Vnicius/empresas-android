@@ -7,7 +7,9 @@ import io.github.vnicius.appempresas.data.model.UserAuthData
 import io.github.vnicius.appempresas.extension.fromJson
 import io.github.vnicius.appempresas.extension.toJson
 
-
+/**
+ * Class to access the user's shared preferences
+ */
 class UserSharedPreferences(context: Context): UserAuthDAO {
 
     private val sharedPreferences =

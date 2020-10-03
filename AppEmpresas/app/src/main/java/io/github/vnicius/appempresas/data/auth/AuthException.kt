@@ -1,5 +1,8 @@
 package io.github.vnicius.appempresas.data.auth
 
+/**
+ * Exceptions for authentication operations
+ */
 sealed class AuthException(override val message: String?): Exception(message) {
 
     class InvalidCredentialsException(message: String?): AuthException(message)

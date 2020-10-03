@@ -2,7 +2,9 @@ package io.github.vnicius.appempresas.data.auth
 
 import io.github.vnicius.appempresas.data.model.UserAuthData
 
-
+/**
+ * Interface to perform user authentication
+ */
 interface UserAuth {
 
     /**

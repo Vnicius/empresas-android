@@ -11,7 +11,9 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
+/**
+ * Perform user authentication using the default API
+ */
 class UserAuthAPI : UserAuth {
 
     private val userAuthService: UserAuthService = Retrofit.Builder()
