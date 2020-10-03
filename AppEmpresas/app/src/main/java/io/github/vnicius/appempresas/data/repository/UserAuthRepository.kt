@@ -3,20 +3,14 @@ package io.github.vnicius.appempresas.data.repository
 import io.github.vnicius.appempresas.data.model.UserAuthData
 
 
-interface UserAuthRepository {
+class UserAuthRepository(
+    private val remoteProvider: RemoteAuthProvider,
+    private val localProvider: LocalAuthProvider
+) : AuthRepository {
 
-    /**
-     * Perform authentication
-     */
-    suspend fun auth(email: String, password: String): UserAuthData
+    override suspend fun auth(email: String, password: String): UserAuthData = remoteProvider.auth(email, password)
 
-    /**
-     * Save authentication data
-     */
-    suspend fun saveAuthData(userAuthData: UserAuthData)
+    override suspend fun saveAuthData(userAuthData: UserAuthData) = localProvider.saveAuthData(userAuthData)
 
-    /**
-     * Load current authentication data
-     */
-    suspend fun loadAuthData(): UserAuthData?
+    override suspend fun loadAuthData(): UserAuthData? = localProvider.loadAuthData()
 }
