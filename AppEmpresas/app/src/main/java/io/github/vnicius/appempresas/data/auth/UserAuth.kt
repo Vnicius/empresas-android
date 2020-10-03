@@ -13,5 +13,5 @@ interface UserAuth {
      *
      * @return the user authentication data
      */
-    suspend fun doAuth(email: String, password: String): UserAuthData?
+    suspend fun doAuth(email: String, password: String): UserAuthData
 }
