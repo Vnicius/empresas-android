@@ -2,6 +2,7 @@ package io.github.vnicius.appempresas
 
 import android.app.Application
 import io.github.vnicius.appempresas.di.dataModule
+import io.github.vnicius.appempresas.di.searchModule
 import io.github.vnicius.appempresas.di.signInModule
 import io.github.vnicius.appempresas.di.splashModule
 import org.koin.android.ext.koin.androidContext
@@ -15,7 +16,7 @@ class MainApplication: Application() {
 
         startKoin {
             androidContext(this@MainApplication)
-            modules(dataModule, splashModule, signInModule)
+            modules(dataModule, splashModule, signInModule, searchModule)
         }
     }
 }

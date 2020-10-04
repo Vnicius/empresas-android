@@ -36,7 +36,10 @@ class EnterpriseAPI(authRepository: AuthRepository) : EnterpriseDAO {
 
     override suspend fun search(query: String): List<Enterprise> =
         withContext(Dispatchers.IO) {
-            enterpriseService.search(query).enterprises
+            enterpriseService.search(query).enterprises.map {
+                it.photo = "${APIConstants.BASE_URL}${it.photo}"
+                it
+            }
         }
 
     override suspend fun getEnterpriseById(id: Int): Enterprise? = withContext(Dispatchers.IO) {

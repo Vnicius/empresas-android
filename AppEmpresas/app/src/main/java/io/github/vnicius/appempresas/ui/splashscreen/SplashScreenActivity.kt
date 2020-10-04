@@ -38,6 +38,7 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun onFailureAuth() {
+        //startScreen(MainActivity::class.java)
         startScreen(SignInActivity::class.java)
     }
 
