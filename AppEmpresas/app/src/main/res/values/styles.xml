@@ -36,4 +36,11 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <style name="SearchTextInputEditTextStyle" parent="TextInputEditTextStyle">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="SearchTextInputTheme" parent="AppTheme">
+        <item name="android:colorControlActivated">@color/colorWhite</item>
+    </style>
 </resources>
