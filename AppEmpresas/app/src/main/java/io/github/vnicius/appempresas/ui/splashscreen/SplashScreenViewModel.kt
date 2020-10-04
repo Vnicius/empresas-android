@@ -2,7 +2,7 @@ package io.github.vnicius.appempresas.ui.splashscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import io.github.vnicius.appempresas.data.repository.AuthRepository
+import io.github.vnicius.appempresas.data.repository.auth.AuthRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 

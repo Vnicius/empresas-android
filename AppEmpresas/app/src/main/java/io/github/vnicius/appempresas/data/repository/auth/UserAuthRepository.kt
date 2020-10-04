@@ -1,4 +1,4 @@
-package io.github.vnicius.appempresas.data.repository
+package io.github.vnicius.appempresas.data.repository.auth
 
 import io.github.vnicius.appempresas.data.model.UserAuthData
 
@@ -12,5 +12,5 @@ class UserAuthRepository(
 
     override suspend fun saveAuthData(userAuthData: UserAuthData) = localProvider.saveAuthData(userAuthData)
 
-    override suspend fun loadAuthData(): UserAuthData? = localProvider.loadAuthData()
+    override fun loadAuthData(): UserAuthData? = localProvider.loadAuthData()
 }

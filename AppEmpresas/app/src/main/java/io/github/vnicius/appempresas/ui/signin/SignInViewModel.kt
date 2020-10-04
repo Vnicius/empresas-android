@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.vnicius.appempresas.data.auth.AuthException.InvalidEmailException
 import io.github.vnicius.appempresas.data.auth.AuthException.InvalidPasswordException
-import io.github.vnicius.appempresas.data.repository.AuthRepository
+import io.github.vnicius.appempresas.data.repository.auth.AuthRepository
 import io.github.vnicius.appempresas.extension.isEmail
 import io.github.vnicius.appempresas.util.RequestState
 import io.github.vnicius.appempresas.util.RequestState.FAILED

@@ -1,4 +1,4 @@
-package io.github.vnicius.appempresas.data.repository
+package io.github.vnicius.appempresas.data.repository.auth
 
 import io.github.vnicius.appempresas.data.auth.UserAuth
 import io.github.vnicius.appempresas.data.model.UserAuthData

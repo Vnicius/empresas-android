@@ -1,4 +1,4 @@
-package io.github.vnicius.appempresas.data.repository
+package io.github.vnicius.appempresas.data.repository.auth
 
 import io.github.vnicius.appempresas.data.model.UserAuthData
 
@@ -18,5 +18,5 @@ interface AuthRepository {
     /**
      * Load current authentication data
      */
-    suspend fun loadAuthData(): UserAuthData?
+    fun loadAuthData(): UserAuthData?
 }

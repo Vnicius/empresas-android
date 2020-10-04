@@ -10,10 +10,10 @@ interface UserAuthDAO {
     /**
      * Get user authentication data
      */
-    suspend fun getUserAuthData(): UserAuthData?
+    fun getUserAuthData(): UserAuthData?
 
     /**
      * Save user authentication data
      */
-    suspend fun saveUserAuthData(userAuthData: UserAuthData)
+    fun saveUserAuthData(userAuthData: UserAuthData)
 }

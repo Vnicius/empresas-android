@@ -1,4 +1,4 @@
-package io.github.vnicius.appempresas.data.repository
+package io.github.vnicius.appempresas.data.repository.auth
 
 import io.github.vnicius.appempresas.data.model.UserAuthData
 
@@ -10,10 +10,10 @@ interface LocalAuthProvider {
     /**
      * Save authentication data locally
      */
-    suspend fun saveAuthData(userAuthData: UserAuthData)
+    fun saveAuthData(userAuthData: UserAuthData)
 
     /**
      * Load local authentication data
      */
-    suspend fun loadAuthData(): UserAuthData?
+    fun loadAuthData(): UserAuthData?
 }
