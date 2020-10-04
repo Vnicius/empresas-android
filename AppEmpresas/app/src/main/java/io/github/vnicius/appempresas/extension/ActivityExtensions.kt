@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.os.Build
 import android.view.View
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 
 
 fun Activity.setupFullScreenSystemUiFlags() {
@@ -63,4 +64,12 @@ fun Activity.setTranslucentStatusBar() {
 
 fun Activity.setTranslucentNavigationBar() {
     window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+}
+
+fun Activity.hideKeyboard() {
+    (getSystemService(Activity.INPUT_METHOD_SERVICE) as? InputMethodManager)?.let { inputMethodManager ->
+        val focusedView = currentFocus ?: View(this)
+
+        inputMethodManager.hideSoftInputFromWindow(focusedView.windowToken, 0)
+    }
 }
