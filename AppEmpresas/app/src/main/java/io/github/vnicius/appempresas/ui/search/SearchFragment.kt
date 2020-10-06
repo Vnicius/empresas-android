@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
@@ -13,15 +14,18 @@ import androidx.core.view.updatePadding
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
+import com.google.android.material.snackbar.Snackbar
 import io.github.vnicius.appempresas.R
 import io.github.vnicius.appempresas.data.auth.AuthException
 import io.github.vnicius.appempresas.data.model.Enterprise
 import io.github.vnicius.appempresas.databinding.FragmentSearchBinding
 import io.github.vnicius.appempresas.extension.*
+import io.github.vnicius.appempresas.ui.common.MessageView
 import io.github.vnicius.appempresas.ui.enterprisedetails.EnterpriseDetailsFragment
 import io.github.vnicius.appempresas.ui.signin.SignInActivity
 import io.github.vnicius.appempresas.util.GlobalSafeClickHelper
 import io.github.vnicius.appempresas.util.RequestState
+import io.github.vnicius.internetchecker.InternetChecker
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -149,8 +153,12 @@ class SearchFragment : Fragment() {
 
     private fun setupRequestStateUpdate() {
         viewModel.requestState.observe(viewLifecycleOwner, {
-            if (it is RequestState.FAILED && it.exception is AuthException.UnauthorizedException) {
-                onAuthError()
+            if (it is RequestState.FAILED) {
+                if (it.exception is AuthException.UnauthorizedException) {
+                    onAuthError()
+                } else if (!InternetChecker.isInternetAvailable) {
+                    showErrorMessage(R.string.error_connection)
+                }
             }
         })
     }
@@ -244,6 +252,10 @@ class SearchFragment : Fragment() {
             )
             addToBackStack(EnterpriseDetailsFragment.TAG)
         }
+    }
+
+    private fun showErrorMessage(@StringRes textRes: Int) {
+        MessageView.show(viewBinding.container, textRes, Snackbar.LENGTH_LONG)
     }
 
     companion object {

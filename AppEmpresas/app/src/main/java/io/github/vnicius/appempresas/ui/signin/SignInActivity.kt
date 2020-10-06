@@ -3,21 +3,25 @@ package io.github.vnicius.appempresas.ui.signin
 import android.content.Intent
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import eightbitlab.com.blurview.RenderScriptBlur
 import io.github.vnicius.appempresas.R
-import io.github.vnicius.appempresas.data.auth.AuthException.*
+import io.github.vnicius.appempresas.data.auth.AuthException
 import io.github.vnicius.appempresas.databinding.ActivitySignInBinding
 import io.github.vnicius.appempresas.extension.globalSafeClickListener
 import io.github.vnicius.appempresas.extension.hideKeyboard
 import io.github.vnicius.appempresas.extension.setTranslucentWindowControls
 import io.github.vnicius.appempresas.extension.setupFullScreenSystemUiFlags
+import io.github.vnicius.appempresas.ui.common.MessageView
 import io.github.vnicius.appempresas.ui.main.MainActivity
 import io.github.vnicius.appempresas.util.RequestState.*
+import io.github.vnicius.internetchecker.InternetChecker
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class SignInActivity : AppCompatActivity() {
@@ -59,19 +63,26 @@ class SignInActivity : AppCompatActivity() {
                     hideLoading()
 
                     val messageRes = when (it.exception) {
-                        is InvalidCredentialsException -> {
+                        is AuthException.InvalidCredentialsException -> {
                             disableEnterButton()
                             R.string.error_invalid_credentials
                         }
-                        is InvalidEmailException -> {
+                        is AuthException.InvalidEmailException -> {
                             showEmailError()
                             null
                         }
-                        is InvalidPasswordException -> {
+                        is AuthException.InvalidPasswordException -> {
                             showPasswordError()
                             null
                         }
-                        else -> R.string.error_some_error_occurred
+                        else -> {
+                            if (InternetChecker.isInternetAvailable) {
+                                R.string.error_some_error_occurred
+                            } else {
+                                showErrorMessage(R.string.error_connection)
+                                null
+                            }
+                        }
                     }
 
                     messageRes?.let { stringRes ->
@@ -184,5 +195,9 @@ class SignInActivity : AppCompatActivity() {
 
     private fun enableEnterButton() {
         viewBinding.enterButton.isEnabled = true
+    }
+
+    private fun showErrorMessage(@StringRes textRes: Int) {
+        MessageView.show(viewBinding.contentContainer, textRes, Snackbar.LENGTH_LONG)
     }
 }

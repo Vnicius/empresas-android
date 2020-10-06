@@ -11,6 +11,7 @@ import io.github.vnicius.appempresas.extension.isEmail
 import io.github.vnicius.appempresas.util.RequestState
 import io.github.vnicius.appempresas.util.RequestState.FAILED
 import io.github.vnicius.appempresas.util.RequestState.SUCCESS
+import io.github.vnicius.internetchecker.InternetChecker
 import kotlinx.coroutines.launch
 
 class SignInViewModel(private val authRepository: AuthRepository): ViewModel() {
@@ -25,6 +26,10 @@ class SignInViewModel(private val authRepository: AuthRepository): ViewModel() {
                 when {
                     (email.isEmpty() || !email.isEmail()) -> throw InvalidEmailException()
                     password.isEmpty() -> throw InvalidPasswordException()
+                }
+
+                if (!InternetChecker.isInternetAvailable) {
+                    throw Exception("Connection Problem")
                 }
 
                 mutableRequestState.postValue(RequestState.LOADING)
