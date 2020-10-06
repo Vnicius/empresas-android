@@ -11,6 +11,7 @@ import io.github.vnicius.appempresas.data.repository.enterprise.EnterpriseReposi
 import io.github.vnicius.appempresas.data.repository.enterprise.EnterprisesRepository
 import io.github.vnicius.appempresas.data.repository.enterprise.RemoteEnterpriseProvider
 import io.github.vnicius.appempresas.data.sharedpreferences.UserSharedPreferences
+import io.github.vnicius.appempresas.ui.enterprisedetails.EnterpriseDetailsViewModel
 import io.github.vnicius.appempresas.ui.search.SearchViewModel
 import io.github.vnicius.appempresas.ui.signin.SignInViewModel
 import io.github.vnicius.appempresas.ui.splashscreen.SplashScreenViewModel
@@ -41,4 +42,8 @@ val signInModule = module {
 
 val searchModule = module {
     viewModel { SearchViewModel(get()) }
+}
+
+val enterpriseDetailsModule = module {
+    viewModel { EnterpriseDetailsViewModel() }
 }

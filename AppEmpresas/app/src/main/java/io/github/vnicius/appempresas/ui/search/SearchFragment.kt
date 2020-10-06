@@ -6,18 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
 import androidx.core.view.updatePadding
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import io.github.vnicius.appempresas.R
 import io.github.vnicius.appempresas.data.auth.AuthException
+import io.github.vnicius.appempresas.data.model.Enterprise
 import io.github.vnicius.appempresas.databinding.FragmentSearchBinding
-import io.github.vnicius.appempresas.extension.globalSafeClickListener
-import io.github.vnicius.appempresas.extension.hideKeyboard
-import io.github.vnicius.appempresas.extension.showKeyboard
+import io.github.vnicius.appempresas.extension.*
+import io.github.vnicius.appempresas.ui.enterprisedetails.EnterpriseDetailsFragment
 import io.github.vnicius.appempresas.ui.signin.SignInActivity
 import io.github.vnicius.appempresas.util.GlobalSafeClickHelper
 import io.github.vnicius.appempresas.util.RequestState
@@ -42,6 +43,11 @@ class SearchFragment : Fragment() {
         return viewBinding.root
     }
 
+    override fun onStart() {
+        viewBinding.container.requestApplyInsets()
+        super.onStart()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -54,19 +60,14 @@ class SearchFragment : Fragment() {
         setupTextChange()
         setupSearchResult()
         setupSearchResultList()
+        setupBackStackListener()
     }
 
     // region Setup
 
     private fun setupWindowInset() {
-        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.toolbar) { v, insets ->
-            v.updatePadding(top = v.paddingTop + insets.systemWindowInsetTop)
-            insets
-        }
-
-        ViewCompat.setOnApplyWindowInsetsListener(viewBinding.searchResultList) { v, insets ->
-            v.updatePadding(bottom = v.paddingBottom + insets.systemWindowInsetBottom)
-            insets
+        viewBinding.searchResultList.doOnApplyWindowInsets { view, windowInsets, initialPadding ->
+            view.updatePadding(bottom = initialPadding.bottom + windowInsets.systemWindowInsetBottom)
         }
     }
 
@@ -117,7 +118,7 @@ class SearchFragment : Fragment() {
 
     private fun setupSearchResultList() {
         viewBinding.searchResultList.apply {
-            adapter = SearchResultAdapter().also {
+            adapter = SearchResultAdapter(::onEnterpriseSelected).also {
                 searchResultAdapter = it
             }
             itemAnimator = null
@@ -152,6 +153,21 @@ class SearchFragment : Fragment() {
                 onAuthError()
             }
         })
+    }
+
+    private fun setupBackStackListener() {
+        childFragmentManager.addOnBackStackChangedListener {
+            if (childFragmentManager.backStackEntryCount == 0) {
+                context?.let {
+                    activity?.setTranslucentWindowControls(
+                        navigationBarColor = ContextCompat.getColor(
+                            it,
+                            R.color.colorDefaultNavigationBar
+                        ), withLightStatusBar = false, withLightNavigationBar = true
+                    )
+                }
+            }
+        }
     }
 
     // endregion
@@ -214,6 +230,19 @@ class SearchFragment : Fragment() {
         activity?.apply {
             startActivity(Intent(this, SignInActivity::class.java))
             finish()
+        }
+    }
+
+    private fun onEnterpriseSelected(enterprise: Enterprise) {
+        closeKeyboard()
+        childFragmentManager.commit {
+            setCustomAnimations(R.anim.slide_in_from_right, 0, 0, R.anim.slide_out_to_right)
+            add(
+                viewBinding.container.id,
+                EnterpriseDetailsFragment.newInstance(enterprise),
+                EnterpriseDetailsFragment.TAG
+            )
+            addToBackStack(EnterpriseDetailsFragment.TAG)
         }
     }
 
