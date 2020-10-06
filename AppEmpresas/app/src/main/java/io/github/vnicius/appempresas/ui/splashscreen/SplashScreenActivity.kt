@@ -3,6 +3,8 @@ package io.github.vnicius.appempresas.ui.splashscreen
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import io.github.vnicius.appempresas.R
 import io.github.vnicius.appempresas.databinding.ActivitySplashScreenBinding
 import io.github.vnicius.appempresas.extension.setTranslucentWindowControls
 import io.github.vnicius.appempresas.extension.setupFullScreenSystemUiFlags
@@ -22,7 +24,12 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(viewBinding.root)
 
         setupFullScreenSystemUiFlags()
-        setTranslucentWindowControls(true, true)
+        setTranslucentWindowControls(
+            navigationBarColor = ContextCompat.getColor(
+                baseContext,
+                R.color.colorDefaultNavigationBar
+            ), withLightStatusBar = true, withLightNavigationBar = true
+        )
 
         viewBinding.root.postDelayed({
             startApp()
